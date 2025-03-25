@@ -1,0 +1,7 @@
+base-original.ics
+base-convertida.csv
+__pycache__/
+.python-version
+servicos_agenda_orig.csv
+servicos_agenda.csv
+servicos_agenda.ics
