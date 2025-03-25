@@ -23,6 +23,6 @@ for event in calendar.events:
 
 # Passo 3: Criar um DataFrame do pandas e salvar como CSV
 df = pd.DataFrame(eventos)
-df.to_csv("eventos.csv", index=False, encoding="utf-8")
+df.to_csv("servicos_agenda_orig.csv", index=False, encoding="utf-8")
 
 print("Conversão concluída! O arquivo 'eventos.csv' foi gerado.")

@@ -10,5 +10,5 @@ Converter o arquivo .ics exportado pelo Google Agenda para um arquivo .csv para 
 
 ### Detalhes do projeto
 - Foi criado um ambiente virtual para instalar os pacote e definir a versão do Python
-- Os arquivos 'servicos_agenda.ics' e 'servicos_agenda.csv' presente no código não foram adicionados por conterem dados sensíveis
+- Os arquivos 'servicos_agenda.ics' e 'servicos_agenda_orig.csv' presente no código não foram adicionados por conterem dados sensíveis
 - Esse projeto faz parte do início dos meus estudos na área de Engenharia de Dados
