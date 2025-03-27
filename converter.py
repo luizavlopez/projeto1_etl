@@ -1,8 +1,11 @@
 # Python version 3.13.2
 # install pandas
 # install ics
+# import Calendar
+# import csv
 
 import pandas as pd
+import csv
 from ics import Calendar
 
 # Passo 1: Ler o arquivo .ics
@@ -12,13 +15,17 @@ with open("servicos_agenda.ics", "r", encoding="utf-8") as file:
     calendar = Calendar(file.read())
 
 # Passo 2: Extrair eventos do arquivo .ics
-eventos = []
+# O campo "descritivo" contém quebras de linha (\n). 
+# Ao exportar para CSV, essas quebras são interpretadas como separadores de registros.
+# Dessa forma, são criadas linhas adicionais no arquivo final.
+eventos : list = []
 for event in calendar.events:
     eventos.append({
-        "Data": event.begin.strftime("%Y-%m-%d %H:%M"),
         "Nome": event.name,
+        "Data": event.begin.strftime("%Y-%m-%d"),
+        "Hora": event.begin.strftime("%H:%M"),
         "Local": event.location,
-        "Descritivo": event.description,
+        "Descritivo": (event.description.replace("\n", " ") if event.description else "Sem Descrição"),
     })
 
 # Passo 3: Criar um DataFrame do pandas e salvar como CSV
