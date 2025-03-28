@@ -5,3 +5,4 @@ __pycache__/
 servicos_agenda_orig.csv
 servicos_agenda.csv
 servicos_agenda.ics
+servicos_agenda_limpo.csv
