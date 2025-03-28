@@ -5,16 +5,33 @@ from datetime import datetime
 
 # 2. EXTRAÇÃO DOS DADOS (A PARTIR DO ARQUIVO .ICS)
 # Aqui, o arquivo .ics é lido e seus dados são extraídos. Podemos usar uma biblioteca como 'ics' ou 'icalendar' para isso.
-# Para este exemplo, o arquivo .ics já foi convertido em uma lista de eventos e transformado em um dataframe do pandas.
+import pandas as pd
+import csv
+from ics import Calendar
 
-# Exemplo de dados extraídos (simulação do formato .ics convertido para um dataframe):
-data = [
-    {'nome_cliente': 'João Silva', 'data_hora_servico': '2025-03-25 10:00', 'local_servico': 'Rua das Flores, 123', 
-     'descritivo': '<a href="https://goo.gl/maps/xyz">Google Maps</a> Perto do mercado. Telefone: 987654321. Serviço: Limpeza. Valor: 100.00. Observações: Chegar com 10 minutos de antecedência.'},
-    {'nome_cliente': 'Maria Oliveira', 'data_hora_servico': '2025-03-26 14:30', 'local_servico': 'Av. Paulista, 456', 
-     'descritivo': '<a href="https://goo.gl/maps/abc">Google Maps</a> Próximo ao shopping. Telefone: 123456789. Serviço: Consultoria. Valor: 200.00. Observações: Trazer documentos.'},
-]
-df = pd.DataFrame(data)
+# 2.1: Ler o arquivo .ics
+# 'with open' - Abre o arquivo .ics no modo leitura ("r") com suporte a caracteres especiais (utf-8)
+# 'calendar' - Lê o conteúdo do arquivo e cria um objeto Calendar, que contém todos os eventos do calendário
+with open("servicos_agenda.ics", "r", encoding="utf-8") as file:
+    calendar = Calendar(file.read())
+
+# 2.2: Extrair eventos do arquivo .ics
+# O campo "descritivo" contém quebras de linha (\n). 
+# Ao exportar para CSV, essas quebras são interpretadas como separadores de registros.
+# Dessa forma, são criadas linhas adicionais no arquivo final.
+eventos : list = []
+for event in calendar.events:
+    eventos.append({
+        "Nome": event.name,
+        "Data": event.begin.strftime("%Y-%m-%d"),
+        "Hora": event.begin.strftime("%H:%M"),
+        "Local": event.location,
+        "Descritivo": (event.description.replace("\n", " ") if event.description else "Sem Descrição"),
+    })
+
+# 2.3: Criar um DataFrame do pandas e salvar como CSV
+df = pd.DataFrame(eventos)
+df.to_csv("servicos_agenda_orig.csv", index=False, encoding="utf-8")
 
 # 3. TRANSFORMAÇÃO DOS DADOS
 # A função abaixo vai transformar o campo 'descritivo', segmentando as informações conforme o solicitado.
